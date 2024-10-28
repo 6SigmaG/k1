@@ -30,7 +30,7 @@ jobs:
         hdiutil create -fs HFS+ -volname "搜索指令严格组合版" -srcfolder "dist/搜索指令严格组合版.app" "搜索指令严格组合版.dmg"
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4  # 更新到 v4 版本
       with:
         name: MacOS-App
         path: 搜索指令严格组合版.dmg
