@@ -1,0 +1,36 @@
+name: Build MacOS App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install py2app
+    
+    - name: Build app
+      run: |
+        python setup.py py2app
+        hdiutil create -fs HFS+ -volname "搜索指令严格组合版" -srcfolder "dist/搜索指令严格组合版.app" "搜索指令严格组合版.dmg"
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: MacOS-App
+        path: 搜索指令严格组合版.dmg
